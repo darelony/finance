@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="sr" data-theme="dark" data-locked>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finansije</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- ------------------------------------------------------------- prijava --- -->
+<div class="gate" id="gate">
+  <form class="gate-card" id="gateForm" autocomplete="off">
+    <svg class="brand-mark gate-mark" width="34" height="34" viewBox="0 0 26 26" aria-hidden="true">
+      <rect x="1" y="1" width="24" height="24" rx="7"/>
+      <path d="M7 17.5 L11 12 L14.5 14.5 L19 8" fill="none" stroke="#fff"
+            stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="19" cy="8" r="2" fill="#fff"/>
+    </svg>
+
+    <div class="gate-title">
+      <h1>Dobar dan, Darko</h1>
+      <p>Molimo unesite šifru.</p>
+    </div>
+
+    <div class="form-error" id="gateError"></div>
+
+    <div class="field">
+      <label for="f-pin">Šifra</label>
+      <input id="f-pin" name="sifra" type="password" inputmode="numeric"
+             autocomplete="off" placeholder="•••••" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary gate-btn" id="gateBtn">Uloguj se</button>
+  </form>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+      <rect x="1" y="1" width="24" height="24" rx="7"/>
+      <path d="M7 17.5 L11 12 L14.5 14.5 L19 8" fill="none" stroke="#fff"
+            stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="19" cy="8" r="2" fill="#fff"/>
+    </svg>
+    <span>
+      Finansije
+      <small>lokalno &amp; offline</small>
+    </span>
+  </div>
+
+  <nav class="months" id="nav" aria-label="Meseci"></nav>
+
+  <button class="icon-btn" id="themeBtn" title="Svetla / tamna tema" aria-label="Promeni temu">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+    </svg>
+  </button>
+  <button class="icon-btn" id="settingsBtn" title="Podešavanja" aria-label="Podešavanja">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>
+    </svg>
+  </button>
+</header>
+
+<main id="view"></main>
+
+<!-- ------------------------------------------------- dodaj/izmeni unos --- -->
+<dialog class="modal" id="entryModal">
+  <form id="entryForm" method="dialog">
+    <div class="m-head">
+      <h2 id="entryTitle">Novi unos</h2>
+      <button type="button" class="mini" data-close aria-label="Zatvori">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="m-body">
+      <div class="form-error" id="entryError"></div>
+
+      <div class="field">
+        <label>Tip unosa</label>
+        <div class="kind-picker">
+          <label style="--kc: var(--series-1)">
+            <input type="radio" name="kind" value="prihod" checked>
+            <span class="t"><i style="background: var(--series-1)"></i>Primio</span>
+            <span class="d">Novac koji je ušao</span>
+          </label>
+          <label style="--kc: var(--series-2)">
+            <input type="radio" name="kind" value="trosak">
+            <span class="t"><i style="background: var(--series-2)"></i>Potrošio</span>
+            <span class="d">Novac koji je otišao</span>
+          </label>
+          <label style="--kc: var(--series-3)">
+            <input type="radio" name="kind" value="stek">
+            <span class="t"><i style="background: var(--series-3)"></i>U štek</span>
+            <span class="d">Ostavljeno na stranu</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label for="f-amount">Iznos</label>
+          <input id="f-amount" name="amount" type="text" inputmode="decimal"
+                 autocomplete="off" placeholder="0" required>
+        </div>
+        <div class="field">
+          <label for="f-date">Datum</label>
+          <input id="f-date" name="date" type="date" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="f-category">Kategorija</label>
+        <input id="f-category" name="category" list="entryCatList" autocomplete="off" placeholder="npr. Hrana">
+        <datalist id="entryCatList"></datalist>
+        <div class="chips-row" id="catChips"></div>
+      </div>
+
+      <div class="field">
+        <label for="f-desc">Napomena <span class="help">(nije obavezno)</span></label>
+        <input id="f-desc" name="description" autocomplete="off" placeholder="Na šta konkretno">
+      </div>
+    </div>
+
+    <div class="m-foot">
+      <button type="button" class="btn btn-ghost" data-close>Otkaži</button>
+      <button type="submit" class="btn btn-primary" id="entrySubmit">Sačuvaj unos</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- -------------------------------------------------------- dodaj mesec --- -->
+<dialog class="modal" id="monthModal">
+  <form id="monthForm" method="dialog">
+    <div class="m-head">
+      <h2>Novi mesec</h2>
+      <button type="button" class="mini" data-close aria-label="Zatvori">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="m-body">
+      <div class="form-error" id="monthError"></div>
+      <div class="two-col">
+        <div class="field">
+          <label for="f-month">Mesec</label>
+          <select id="f-month" name="month"></select>
+        </div>
+        <div class="field">
+          <label for="f-year">Godina</label>
+          <input id="f-year" name="year" type="number" min="1990" max="2200" step="1" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="f-note">Napomena <span class="help">(nije obavezno)</span></label>
+        <input id="f-note" name="note" autocomplete="off" placeholder="npr. mesec kad sam menjao auto">
+      </div>
+    </div>
+    <div class="m-foot">
+      <button type="button" class="btn btn-ghost" data-close>Otkaži</button>
+      <button type="submit" class="btn btn-primary">Dodaj dashboard</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- --------------------------------------------------------- podešavanja --- -->
+<dialog class="modal" id="settingsModal">
+  <form id="settingsForm" method="dialog">
+    <div class="m-head">
+      <h2>Podešavanja</h2>
+      <button type="button" class="mini" data-close aria-label="Zatvori">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="m-body">
+      <div class="field">
+        <label for="f-currency">Valuta</label>
+        <input id="f-currency" name="currency" maxlength="6" placeholder="RSD">
+        <div class="help">Prikazuje se uz svaki iznos. Npr. RSD, EUR, USD.</div>
+      </div>
+      <div class="field">
+        <label>Baza podataka</label>
+        <div class="help" id="dbPath">Finansije\data\finansije.db — sve ostaje na ovom računaru.</div>
+      </div>
+      <div class="field">
+        <button type="button" class="btn" id="exportBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+          Izvezi sve u JSON
+        </button>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button type="button" class="btn btn-ghost" data-close>Zatvori</button>
+      <button type="submit" class="btn btn-primary">Sačuvaj</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

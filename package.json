@@ -1,0 +1,16 @@
+{
+  "name": "finansije",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lokalna aplikacija za vodjenje mesecnih finansija - prihodi, troskovi i stek.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js --open",
+    "server": "node server.js",
+    "ikonica": "node tools/make-icon.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {}
+}

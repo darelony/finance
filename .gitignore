@@ -1,0 +1,34 @@
+# Licni podaci i lokalno stanje - ne ide na git.
+# Server sam pravi data/ i bazu pri prvom pokretanju.
+data/
+
+# SQLite fajlovi bilo gde (baza, WAL, shared memory, rezervne kopije)
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
+*.sqlite3
+*.bak
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Okruzenje i tajne
+.env
+.env.*
+
+# Logovi
+*.log
+
+# Windows / editori
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.vscode/
+.idea/
+*.swp
+
+# Claude Code lokalna podesavanja
+.claude/settings.local.json
